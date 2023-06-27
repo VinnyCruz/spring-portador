@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.apicredit.CreditApi;
 import org.jazztech.portador.apicredit.dto.CreditAnalysis;
 import org.jazztech.portador.controller.request.CardHolderRequest;
+import org.jazztech.portador.controller.request.CreditCardRequest;
 import org.jazztech.portador.controller.response.CardHolderResponse;
+import org.jazztech.portador.controller.response.CreditCardResponse;
 import org.jazztech.portador.exception.CardHolderAlreadyExistException;
 import org.jazztech.portador.exception.IdsDoesntMatchException;
 import org.jazztech.portador.exception.NonApprovedCreditAnalysisException;
@@ -57,5 +59,8 @@ public class CreateCardHolderService {
             throw new NonApprovedCreditAnalysisException("A análise de crédito informada não foi aprovada.");
         }
         return creditAnalysis;
+    }
+
+    public CreditCardResponse createCreditCard(CreditCardRequest creditCardRequest) {
     }
 }

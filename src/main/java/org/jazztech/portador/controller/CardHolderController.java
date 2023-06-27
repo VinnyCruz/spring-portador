@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.controller.request.CardHolderRequest;
+import org.jazztech.portador.controller.request.CreditCardRequest;
 import org.jazztech.portador.controller.response.CardHolderResponse;
+import org.jazztech.portador.controller.response.CreditCardResponse;
 import org.jazztech.portador.service.create.CreateCardHolderService;
 import org.jazztech.portador.service.search.SearchCardHolderService;
 import org.springframework.http.HttpStatus;
@@ -40,5 +42,11 @@ public class CardHolderController {
     @ResponseStatus(HttpStatus.OK)
     public CardHolderResponse getCardHolderById(@PathVariable(value = "id") UUID id) {
         return searchCardHolderService.getCardHolderById(id);
+    }
+
+    @PostMapping(path = "/{cardHolderId}/cards")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreditCardResponse createCreditCard(@PathVariable(value = "cardHolderId") UUID cardHolderId, @RequestBody CreditCardRequest creditCardRequest) {
+        return createCardHolderService.createCreditCard(creditCardRequest);
     }
 }
