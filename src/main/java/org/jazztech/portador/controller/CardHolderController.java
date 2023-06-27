@@ -30,7 +30,7 @@ public class CardHolderController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CardHolderResponse> getAllCardHolders(@RequestParam(value = "status", required = false) String status) {
+    public List<CardHolderResponse> getCardHoldersBy(@RequestParam(value = "status", required = false) String status) {
         return searchCardHolderService.getCardHoldersBy(status);
     }
 }
