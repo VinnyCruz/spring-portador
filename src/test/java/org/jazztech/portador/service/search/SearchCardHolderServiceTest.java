@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.jazztech.portador.apicredit.CreditApi;
 import org.jazztech.portador.controller.response.CardHolderResponse;
@@ -21,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
 class SearchCardHolderServiceTest {
@@ -51,6 +53,24 @@ class SearchCardHolderServiceTest {
         List<CardHolderResponse> responses = service.getCardHoldersBy(null);
         assertEquals(4, responses.size());
     }
+
+    @Test
+    void should_return_a_card_holder_searched_by_id() {
+        final UUID uuid = UUID.randomUUID();
+        when(repository.findById(uuid)).thenReturn(Optional.ofNullable(entityFactory()));
+
+        CardHolderResponse response = service.getCardHolderById(uuid);
+        assertNotNull(response);
+    }
+
+    @Test
+    void should_throw_response_status_exception_not_found_when_search_a_card_holder_by_id() {
+        final UUID uuid = UUID.randomUUID();
+        when(repository.findById(uuid)).thenReturn(Optional.empty());
+
+        assertThrows(ResponseStatusException.class, () -> service.getCardHolderById(uuid));
+    }
+
     public CardHolderEntity entityFactory() {
         return CardHolderEntity.builder()
                 .clientId(UUID.randomUUID())

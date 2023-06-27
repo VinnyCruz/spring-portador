@@ -1,6 +1,7 @@
 package org.jazztech.portador.controller;
 
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.controller.request.CardHolderRequest;
 import org.jazztech.portador.controller.response.CardHolderResponse;
@@ -8,6 +9,7 @@ import org.jazztech.portador.service.create.CreateCardHolderService;
 import org.jazztech.portador.service.search.SearchCardHolderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +34,11 @@ public class CardHolderController {
     @ResponseStatus(HttpStatus.OK)
     public List<CardHolderResponse> getCardHoldersBy(@RequestParam(value = "status", required = false) String status) {
         return searchCardHolderService.getCardHoldersBy(status);
+    }
+
+    @GetMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CardHolderResponse getCardHolderById(@PathVariable(value = "id") UUID id) {
+        return searchCardHolderService.getCardHolderById(id);
     }
 }

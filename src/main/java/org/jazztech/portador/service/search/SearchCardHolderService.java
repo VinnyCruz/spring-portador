@@ -1,6 +1,7 @@
 package org.jazztech.portador.service.search;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.apicredit.CreditApi;
@@ -10,7 +11,9 @@ import org.jazztech.portador.mapper.CardHolderModelMapper;
 import org.jazztech.portador.mapper.CardHolderResponseMapper;
 import org.jazztech.portador.repository.CardHolderRepository;
 import org.jazztech.portador.repository.entity.CardHolderEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,4 +37,10 @@ public class SearchCardHolderService {
                 .collect(Collectors.toList());
     }
 
+    public CardHolderResponse getCardHolderById(UUID id) {
+        final CardHolderEntity cardHolderEntity = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Portador não encontrado"));
+        return cardHolderResponseMapper.from(cardHolderEntity);
+    }
 }
