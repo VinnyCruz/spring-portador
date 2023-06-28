@@ -21,9 +21,10 @@ CREATE TABLE IF NOT EXISTS CARDHOLDER(
 CREATE TABLE IF NOT EXISTS CREDITCARD(
         id UUID NOT NULL,
         card_holder_id UUID,
-        card_number CHAR(16) NOT NULL,
+        card_number VARCHAR(40) NOT NULL,
         cvv INTEGER NOT NULL,
         due_date DATE,
+        card_limit decimal(10,2),
         PRIMARY KEY (id),
         FOREIGN KEY (card_holder_id) REFERENCES CARDHOLDER(id)
 );

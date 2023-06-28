@@ -1,13 +1,13 @@
 package org.jazztech.portador.repository.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 import lombok.Builder;
 import org.springframework.data.annotation.Immutable;
@@ -16,12 +16,10 @@ import org.springframework.data.annotation.Immutable;
 @Table(name = "CREDITCARD")
 @Immutable
 public class CreditCardEntity {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "card_holder_id", referencedColumnName = "id")
-    CardHolderEntity cardHolder;
+    UUID cardHolderId;
 
     @Column(name = "card_number")
     String cardNumber;
@@ -29,18 +27,21 @@ public class CreditCardEntity {
     Integer cvv;
 
     @Column(name = "due_date")
-    Date dueDate;
+    LocalDate dueDate;
+    @Column(name = "card_limit")
+    BigDecimal limit;
 
     public CreditCardEntity() {
     }
 
     @Builder(toBuilder = true)
-    public CreditCardEntity(CardHolderEntity cardHolder, String cardNumber, Integer cvv, Date dueDate) {
+    public CreditCardEntity(UUID cardHolderId, String cardNumber, Integer cvv, LocalDate dueDate, BigDecimal limit) {
         this.id = UUID.randomUUID();
-        this.cardHolder = cardHolder;
+        this.cardHolderId = cardHolderId;
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.dueDate = dueDate;
+        this.limit = limit;
     }
 
 
@@ -54,12 +55,16 @@ public class CreditCardEntity {
         this.id = id;
     }
 
-    public CardHolderEntity getCardHolder() {
-        return cardHolder;
+    public UUID getCardHolderId() {
+        return cardHolderId;
     }
 
-    public void setCardHolderId(CardHolderEntity cardHolder) {
-        this.cardHolder = cardHolder;
+    public void setCardHolderId(UUID cardHolderId) {
+        this.cardHolderId = cardHolderId;
+    }
+
+    public void setLimit(BigDecimal limit) {
+        this.limit = limit;
     }
 
     public String getCardNumber() {
@@ -78,11 +83,15 @@ public class CreditCardEntity {
         this.cvv = cvv;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public BigDecimal getLimit() {
+        return limit;
     }
 }
