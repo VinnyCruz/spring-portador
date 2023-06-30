@@ -10,11 +10,13 @@ import org.jazztech.portador.exception.UnavailableCreditLimitException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class ControlExceptionHandler {
     public static final String TIMESTAMP = "timestamp";
 
-    @ExceptionHandler
+    @ExceptionHandler(IdsDoesntMatchException.class)
     public ProblemDetail idsDoesntMatchExceptionHandler(IdsDoesntMatchException e) {
         final ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setType(URI.create(""));
@@ -23,7 +25,7 @@ public class ControlExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NonApprovedCreditAnalysisException.class)
     public ProblemDetail nonApprovedCreditAnalysisException(NonApprovedCreditAnalysisException e) {
         final ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setType(URI.create(""));
@@ -32,7 +34,7 @@ public class ControlExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(CardHolderAlreadyExistException.class)
     public ProblemDetail cardHolderAlreadyExistException(CardHolderAlreadyExistException e) {
         final ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setType(URI.create(""));
@@ -41,7 +43,7 @@ public class ControlExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(UnavailableCreditLimitException.class)
     public ProblemDetail unavailableCreditLimitException(UnavailableCreditLimitException e) {
         final ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setType(URI.create(""));
@@ -50,7 +52,7 @@ public class ControlExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(InactiveCardHolderException.class)
     public ProblemDetail inactiveCardHolderException(InactiveCardHolderException e) {
         final ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setType(URI.create(""));
@@ -58,4 +60,5 @@ public class ControlExceptionHandler {
         problemDetail.setDetail(e.getMessage());
         return problemDetail;
     }
+
 }

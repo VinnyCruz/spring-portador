@@ -95,7 +95,7 @@ public class CreateCardHolderService {
         } else if (creditCard.limit().compareTo(remainingLimit) > 0) {
             throw new UnavailableCreditLimitException("O limite solicitado para o cartão é maior que o limite disponível para o portador.");
         }
-        return creditCard.updateCreditCardInformation(creditCard);
+        return creditCard.updateCreditCardInformation(cardHolderId, creditCard);
     }
 }
 

@@ -127,6 +127,17 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.10</version>
+				<configuration>
+					<excludes>
+						<exclude>org/jazztech/portador/mapper/**</exclude>
+						<exclude>org/jazztech/portador/repository/entity/**</exclude>
+						<exclude>org/jazztech/portador/exceptionhandler/**</exclude>
+						<exclude>org/jazztech/portador/exception/**</exclude>
+						<exclude>org/jazztech/portador/controller/**</exclude>
+						<exclude>org/jazztech/portador/CardHolderApplication.class</exclude>
+						<exclude>org/jazztech/portador/apicredit/dto/**</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>

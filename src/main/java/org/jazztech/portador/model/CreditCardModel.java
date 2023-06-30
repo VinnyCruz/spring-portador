@@ -60,9 +60,9 @@ public record CreditCardModel(
         return now.plusYears(DUE_DATE_IN_YEARS);
     }
 
-    public CreditCardModel updateCreditCardInformation(CreditCardModel creditCardModel) {
+    public CreditCardModel updateCreditCardInformation(UUID cardHolderId, CreditCardModel creditCardModel) {
         return this.toBuilder()
-                .cardHolderId(creditCardModel.cardHolderId)
+                .cardHolderId(cardHolderId)
                 .cardNumber(generateCardNumber())
                 .cvv(generateCVV())
                 .dueDate(generateDueDate())

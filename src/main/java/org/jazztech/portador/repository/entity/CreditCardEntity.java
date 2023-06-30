@@ -31,7 +31,7 @@ public class CreditCardEntity {
     @Column(name = "card_limit")
     BigDecimal limit;
 
-    public CreditCardEntity() {
+    private CreditCardEntity() {
     }
 
     @Builder(toBuilder = true)
@@ -43,9 +43,6 @@ public class CreditCardEntity {
         this.dueDate = dueDate;
         this.limit = limit;
     }
-
-
-
 
     public UUID getId() {
         return id;
