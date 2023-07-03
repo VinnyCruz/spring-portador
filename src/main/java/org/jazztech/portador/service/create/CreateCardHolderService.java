@@ -90,7 +90,7 @@ public class CreateCardHolderService {
         final List<CreditCardModel> cardHolderCreditCards = searchCardHolder.getCreditCardsByCardHolderId(cardHolderId);
         final BigDecimal usedLimit = cardHolderCreditCards.stream().map(CreditCardModel::limit).reduce(BigDecimal.ZERO, BigDecimal::add);
         final BigDecimal remainingLimit = cardHolder.creditLimit().subtract(usedLimit);
-        if (!cardHolder.status().equals("ACTIVE")) {
+        if (!cardHolder.status().equals(CardHolderResponse.Status.ACTIVE)) {
             throw new InactiveCardHolderException("O portador não está ativo. Não é possível solicitar um novo cartão de crédito.");
         } else if (creditCard.limit().compareTo(remainingLimit) > 0) {
             throw new UnavailableCreditLimitException("O limite solicitado para o cartão é maior que o limite disponível para o portador.");

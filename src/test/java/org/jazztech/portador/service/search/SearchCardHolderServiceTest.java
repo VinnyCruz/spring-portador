@@ -51,9 +51,9 @@ class SearchCardHolderServiceTest {
 
     @Test
     void should_return_a_list_of_active_card_holders() {
-        when(cardHolderRepository.findByStatus("ACTIVE")).thenReturn(List.of(entityFactory(),entityFactory()));
-        List<CardHolderResponse> responses = service.getCardHoldersBy("ACTIVE");
-        assertEquals("ACTIVE", responses.get(0).status());
+        when(cardHolderRepository.findByStatus(CardHolderEntity.Status.ACTIVE)).thenReturn(List.of(entityFactory(),entityFactory()));
+        List<CardHolderResponse> responses = service.getCardHoldersBy(CardHolderEntity.Status.ACTIVE);
+        assertEquals(CardHolderResponse.Status.ACTIVE, responses.get(0).status());
         assertEquals(2, responses.size());
     }
 
@@ -94,7 +94,7 @@ class SearchCardHolderServiceTest {
         return CardHolderEntity.builder()
                 .clientId(UUID.randomUUID())
                 .creditAnalysisId(UUID.randomUUID())
-                .status("ACTIVE")
+                .status(CardHolderEntity.Status.ACTIVE)
                 .creditLimit(BigDecimal.TEN)
                 .bankAccount(bankAccountEntityFactory())
                 .build();
