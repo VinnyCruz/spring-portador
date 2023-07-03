@@ -3,6 +3,8 @@ package org.jazztech.portador.repository.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,7 +35,8 @@ public class CardHolderEntity {
     @JoinColumn(name = "bank_account_id", referencedColumnName = "id")
     BankAccountEntity bankAccount;
 
-    String status;
+    @Enumerated(EnumType.STRING)
+    Status status;
 
     @Column(name = "credit_limit")
     BigDecimal creditLimit;
@@ -46,13 +49,18 @@ public class CardHolderEntity {
     }
 
     @Builder
-    public CardHolderEntity(UUID clientId, UUID creditAnalysisId, BankAccountEntity bankAccount, String status, BigDecimal creditLimit) {
+    public CardHolderEntity(UUID clientId, UUID creditAnalysisId, BankAccountEntity bankAccount, Status status, BigDecimal creditLimit) {
         this.id = UUID.randomUUID();
         this.clientId = clientId;
         this.creditAnalysisId = creditAnalysisId;
         this.bankAccount = bankAccount;
         this.status = status;
         this.creditLimit = creditLimit;
+    }
+
+    public enum Status {
+        ACTIVE,
+        INACTIVE
     }
 
     public UUID getId() {
@@ -71,7 +79,7 @@ public class CardHolderEntity {
         return bankAccount;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
