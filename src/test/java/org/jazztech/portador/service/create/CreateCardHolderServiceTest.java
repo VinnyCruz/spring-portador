@@ -62,7 +62,7 @@ class CreateCardHolderServiceTest {
         final CardHolderEntity entity = CardHolderEntity.builder()
                 .clientId(request.clientId())
                 .creditAnalysisId(request.creditAnalysisId())
-                .bankAccount(bankAccountEntityFactory()).status("ACTIVE")
+                .bankAccount(bankAccountEntityFactory()).status(CardHolderEntity.Status.ACTIVE)
                 .creditLimit(new BigDecimal(20000).setScale(2, RoundingMode.DOWN))
                 .build();
         when(creditApi.getAnalysisById(request.creditAnalysisId())).thenReturn(CreditAnalysis.builder()
@@ -83,7 +83,7 @@ class CreateCardHolderServiceTest {
         final CardHolderEntity entity = CardHolderEntity.builder()
                 .clientId(request.clientId())
                 .creditAnalysisId(request.creditAnalysisId())
-                .bankAccount(bankAccountEntityFactory()).status("ACTIVE")
+                .bankAccount(bankAccountEntityFactory()).status(CardHolderEntity.Status.ACTIVE)
                 .creditLimit(new BigDecimal(20000).setScale(2, RoundingMode.DOWN))
                 .build();
         when(creditApi.getAnalysisById(request.creditAnalysisId())).thenReturn(CreditAnalysis.builder()
@@ -101,7 +101,7 @@ class CreateCardHolderServiceTest {
         final CardHolderEntity entity = CardHolderEntity.builder()
                 .clientId(UUID.randomUUID())
                 .creditAnalysisId(UUID.randomUUID())
-                .bankAccount(bankAccountEntityFactory()).status("ACTIVE")
+                .bankAccount(bankAccountEntityFactory()).status(CardHolderEntity.Status.ACTIVE)
                 .creditLimit(new BigDecimal(20000).setScale(2, RoundingMode.DOWN))
                 .build();
         when(repository.save(cardHolderEntityCaptor.capture())).thenThrow(DuplicateKeyException.class);
