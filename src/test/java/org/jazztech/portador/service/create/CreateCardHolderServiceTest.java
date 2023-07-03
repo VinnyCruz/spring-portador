@@ -74,7 +74,7 @@ class CreateCardHolderServiceTest {
         when(repository.save(cardHolderEntityCaptor.capture())).thenReturn(entity);
         final CardHolderResponse cardHolder = service.createCardHolder(request);
         assertNotNull(cardHolder.id());
-        assertEquals("ACTIVE", cardHolder.status());
+        assertEquals(CardHolderResponse.Status.ACTIVE, cardHolder.status());
     }
 
     @Test
