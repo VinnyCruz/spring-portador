@@ -93,7 +93,7 @@ class CreateCardHolderServiceTest {
         final CardHolderEntity entity = CardHolderEntity.builder()
                 .clientId(request.clientId())
                 .creditAnalysisId(request.creditAnalysisId())
-                .bankAccount(bankAccountEntityFactory()).status("ACTIVE")
+                .bankAccount(bankAccountEntityFactory()).status(CardHolderEntity.Status.ACTIVE)
                 .creditLimit(new BigDecimal(20000).setScale(2, RoundingMode.DOWN))
                 .build();
         when(creditApi.getAnalysisById(request.creditAnalysisId())).thenReturn(CreditAnalysis.builder()
@@ -105,7 +105,7 @@ class CreateCardHolderServiceTest {
         when(cardHolderRepository.save(cardHolderEntityCaptor.capture())).thenReturn(entity);
         final CardHolderResponse cardHolder = service.createCardHolder(request);
         assertNotNull(cardHolder.id());
-        assertEquals("ACTIVE", cardHolder.status());
+        assertEquals(CardHolderResponse.Status.ACTIVE, cardHolder.status());
     }
 
     @Test
@@ -125,7 +125,7 @@ class CreateCardHolderServiceTest {
         final CardHolderEntity entity = CardHolderEntity.builder()
                 .clientId(UUID.randomUUID())
                 .creditAnalysisId(UUID.randomUUID())
-                .bankAccount(bankAccountEntityFactory()).status("ACTIVE")
+                .bankAccount(bankAccountEntityFactory()).status(CardHolderEntity.Status.ACTIVE)
                 .creditLimit(new BigDecimal(20000).setScale(2, RoundingMode.DOWN))
                 .build();
         when(cardHolderRepository.save(cardHolderEntityCaptor.capture())).thenThrow(DuplicateKeyException.class);
@@ -192,7 +192,7 @@ class CreateCardHolderServiceTest {
     public CardHolderResponse responseFactory() {
         return CardHolderResponse.builder()
                 .id(UUID.randomUUID())
-                .status("ACTIVE")
+                .status(CardHolderResponse.Status.ACTIVE)
                 .creditLimit(BigDecimal.TEN)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -201,7 +201,7 @@ class CreateCardHolderServiceTest {
     public CardHolderResponse inactiveResponseFactory() {
         return CardHolderResponse.builder()
                 .id(UUID.randomUUID())
-                .status("INACTIVE")
+                .status(CardHolderResponse.Status.INACTIVE)
                 .creditLimit(BigDecimal.TEN)
                 .createdAt(LocalDateTime.now())
                 .build();

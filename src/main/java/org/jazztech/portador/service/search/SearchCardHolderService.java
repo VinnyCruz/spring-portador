@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.jazztech.portador.apicredit.CreditApi;
 import org.jazztech.portador.controller.response.CardHolderResponse;
-import org.jazztech.portador.mapper.CardHolderEntityMapper;
-import org.jazztech.portador.mapper.CardHolderModelMapper;
 import org.jazztech.portador.mapper.CardHolderResponseMapper;
 import org.jazztech.portador.mapper.CreditCardModelMapper;
 import org.jazztech.portador.model.CreditCardModel;
@@ -23,14 +20,11 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class SearchCardHolderService {
     private final CardHolderResponseMapper cardHolderResponseMapper;
-    private final CardHolderModelMapper cardHolderModelMapper;
-    private final CardHolderEntityMapper cardHolderEntityMapper;
     private final CreditCardModelMapper creditCardModelMapper;
     private final CardHolderRepository repository;
     private final CreditCardRepository creditCardRepository;
-    private final CreditApi creditApi;
 
-    public List<CardHolderResponse> getCardHoldersBy(String status) {
+    public List<CardHolderResponse> getCardHoldersBy(CardHolderEntity.Status status) {
         final List<CardHolderEntity> cardHolders;
         if (status != null) {
             cardHolders = repository.findByStatus(status);
