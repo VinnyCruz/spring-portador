@@ -52,9 +52,9 @@ public class CreateCardHolderService {
         if (!cardHolder.clientId().equals(creditAnalysis.clientId())) {
             throw new IdsDoesntMatchException("A análise de crédito não corresponde ao cliente informado");
         }
-        final CardHolderModel cardHolderApproved = cardHolder.toBuilder().status("ACTIVE").creditLimit(creditAnalysis.approvedLimit()).build();
-        final CardHolderModel cardHolderBankUpdated = cardHolderApproved.updateBankAccount(cardHolderApproved);
-        final CardHolderEntity cardHolderEntity = cardHolderEntityMapper.from(cardHolderBankUpdated);
+        final CardHolderModel updateCreditLimit = cardHolder.toBuilder().creditLimit(creditAnalysis.approvedLimit()).build();
+        final CardHolderModel cardHolderApproved = updateCreditLimit.approveCardHolder(updateCreditLimit);
+        final CardHolderEntity cardHolderEntity = cardHolderEntityMapper.from(cardHolderApproved);
         final CardHolderEntity cardHolderSaved = saveCardHolder(cardHolderEntity);
         return cardHolderResponseMapper.from(cardHolderSaved);
     }
