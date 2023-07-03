@@ -6,9 +6,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.Builder;
+import org.springframework.data.annotation.Immutable;
 
 @Entity
 @Table(name = "BANKACCOUNT")
+@Immutable
 public class BankAccountEntity {
     @Id
     UUID id;

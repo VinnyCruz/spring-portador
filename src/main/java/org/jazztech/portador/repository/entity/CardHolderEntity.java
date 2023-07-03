@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.Immutable;
 
 @Entity
 @Table(name = "CARDHOLDER")
+@Immutable
 public class CardHolderEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
