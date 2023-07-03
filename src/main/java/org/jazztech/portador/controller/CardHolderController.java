@@ -5,6 +5,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.controller.request.CardHolderRequest;
 import org.jazztech.portador.controller.response.CardHolderResponse;
+import org.jazztech.portador.repository.entity.CardHolderEntity;
 import org.jazztech.portador.service.create.CreateCardHolderService;
 import org.jazztech.portador.service.search.SearchCardHolderService;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class CardHolderController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CardHolderResponse> getCardHoldersBy(@RequestParam(value = "status", required = false) String status) {
+    public List<CardHolderResponse> getCardHoldersBy(@RequestParam(value = "status", required = false) CardHolderEntity.Status status) {
         return searchCardHolderService.getCardHoldersBy(status);
     }
 

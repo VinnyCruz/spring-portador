@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CardHolderRepository extends JpaRepository<CardHolderEntity, UUID> {
-    List<CardHolderEntity> findByStatus(String status);
+    List<CardHolderEntity> findByStatus(CardHolderEntity.Status status);
 }

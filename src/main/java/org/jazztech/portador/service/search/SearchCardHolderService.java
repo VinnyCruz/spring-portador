@@ -24,7 +24,7 @@ public class SearchCardHolderService {
     private final CardHolderRepository repository;
     private final CreditApi creditApi;
 
-    public List<CardHolderResponse> getCardHoldersBy(String status) {
+    public List<CardHolderResponse> getCardHoldersBy(CardHolderEntity.Status status) {
         final List<CardHolderEntity> cardHolders;
         if (status != null) {
             cardHolders = repository.findByStatus(status);

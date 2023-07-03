@@ -7,15 +7,20 @@ import lombok.Builder;
 
 public record CardHolderResponse(
         UUID id,
-        String status,
+        Status status,
         BigDecimal creditLimit,
         LocalDateTime createdAt
 ) {
     @Builder(toBuilder = true)
-    public CardHolderResponse(UUID id, String status, BigDecimal creditLimit, LocalDateTime createdAt) {
+    public CardHolderResponse(UUID id, Status status, BigDecimal creditLimit, LocalDateTime createdAt) {
         this.id = id;
         this.status = status;
         this.creditLimit = creditLimit;
         this.createdAt = createdAt;
+    }
+
+    public enum Status {
+        ACTIVE,
+        INACTIVE
     }
 }
