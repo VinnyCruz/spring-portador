@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.apicredit.CreditApi;
 import org.jazztech.portador.controller.response.CardHolderResponse;
+import org.jazztech.portador.controller.response.CreditCardResponse;
 import org.jazztech.portador.mapper.CardHolderEntityMapper;
 import org.jazztech.portador.mapper.CardHolderModelMapper;
 import org.jazztech.portador.mapper.CardHolderResponseMapper;
@@ -56,5 +57,8 @@ public class SearchCardHolderService {
                 .stream()
                 .map(creditCardModelMapper::from)
                 .collect(Collectors.toList());
+    }
+
+    public CreditCardResponse getCreditCardById(UUID cardHolderId, UUID id) {
     }
 }

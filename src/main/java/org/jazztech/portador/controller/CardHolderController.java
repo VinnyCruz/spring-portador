@@ -7,7 +7,7 @@ import org.jazztech.portador.controller.request.CardHolderRequest;
 import org.jazztech.portador.controller.request.CreditCardRequest;
 import org.jazztech.portador.controller.response.CardHolderResponse;
 import org.jazztech.portador.controller.response.CreditCardResponse;
-import org.jazztech.portador.model.CreditCardModel;
+import org.jazztech.portador.mapper.CreditCardResponseMapper;
 import org.jazztech.portador.service.create.CreateCardHolderService;
 import org.jazztech.portador.service.search.SearchCardHolderService;
 import org.springframework.http.HttpStatus;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CardHolderController {
     private final CreateCardHolderService createCardHolderService;
     private final SearchCardHolderService searchCardHolderService;
+    private final CreditCardResponseMapper creditCardResponseMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -54,7 +55,14 @@ public class CardHolderController {
 
     @GetMapping(path = "/{cardHolderId}/cards")
     @ResponseStatus(HttpStatus.OK)
-    public List<CreditCardModel> getCreditCardsByCardHolderId(@PathVariable(value = "cardHolderId") UUID cardHolderId) {
-        return searchCardHolderService.getCreditCardsByCardHolderId(cardHolderId);
+    public List<CreditCardResponse> getCreditCardsByCardHolderId(@PathVariable(value = "cardHolderId") UUID cardHolderId) {
+        return creditCardResponseMapper.from(searchCardHolderService.getCreditCardsByCardHolderId(cardHolderId));
+    }
+
+    @GetMapping(path = "/{cardHolderId}/cards/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CreditCardResponse getCreditCardById(@PathVariable(value = "cardHolderId") UUID cardHolderId,
+                                                @PathVariable(value = "id") UUID id) {
+        return searchCardHolderService.getCreditCardById(cardHolderId, id);
     }
 }
