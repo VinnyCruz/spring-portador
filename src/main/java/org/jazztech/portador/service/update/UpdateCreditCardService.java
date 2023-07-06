@@ -36,7 +36,7 @@ public class UpdateCreditCardService {
         if (newRemainingLimit.compareTo(BigDecimal.ZERO) < 0) {
             throw new InsufficientCreditLimitException("O limite solicitado é maior que o seu limite de crédito disponível.");
         }
-        final CreditCardEntity creditCard = search.getCreditCardEntityById(cardHolderId, id);
+        final CreditCardEntity creditCard = search.getCreditCardById(cardHolderId, id);
         creditCardRepository.save(creditCard.toBuilder()
                 .limit(limitUpdateRequest.newLimit())
                 .build());

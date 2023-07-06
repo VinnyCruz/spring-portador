@@ -58,15 +58,4 @@ public class SearchCardHolderService {
         }
         return creditCard;
     }
-
-    public CreditCardEntity getCreditCardEntityById(UUID cardHolderId, UUID id) {
-        getCardHolderById(cardHolderId);
-        final CreditCardEntity creditCard = creditCardRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Cartão de crédito não encontrado"));
-        if (!creditCard.getCardHolderId().equals(cardHolderId)) {
-            throw new IdsDoesntMatchException("O cartão de crédito não pertence ao portador informado");
-        }
-        return creditCard;
-    }
 }
