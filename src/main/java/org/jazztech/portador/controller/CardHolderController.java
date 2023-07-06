@@ -5,18 +5,14 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.controller.request.CardHolderRequest;
 import org.jazztech.portador.controller.request.CreditCardRequest;
-import org.jazztech.portador.controller.request.LimitUpdateRequest;
 import org.jazztech.portador.controller.response.CardHolderResponse;
 import org.jazztech.portador.controller.response.CreditCardResponse;
-import org.jazztech.portador.controller.response.LimitUpdateResponse;
 import org.jazztech.portador.mapper.CreditCardResponseMapper;
 import org.jazztech.portador.repository.entity.CardHolderEntity;
 import org.jazztech.portador.service.create.CreateCardHolderService;
 import org.jazztech.portador.service.search.SearchCardHolderService;
-import org.jazztech.portador.service.update.UpdateCreditCardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +28,6 @@ public class CardHolderController {
     private final CreateCardHolderService createCardHolderService;
     private final SearchCardHolderService searchCardHolderService;
     private final CreditCardResponseMapper creditCardResponseMapper;
-    private final UpdateCreditCardService updateCreditCardService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -70,12 +65,5 @@ public class CardHolderController {
     public CreditCardResponse getCreditCardById(@PathVariable(value = "cardHolderId") UUID cardHolderId,
                                                 @PathVariable(value = "id") UUID id) {
         return creditCardResponseMapper.from(searchCardHolderService.getCreditCardById(cardHolderId, id));
-    }
-
-    @PatchMapping("/{cardHolderId}/cards/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public LimitUpdateResponse updateCreditCardLimit(@PathVariable UUID cardHolderId, @PathVariable UUID id,
-                                                     @RequestBody LimitUpdateRequest limitUpdateRequest) {
-        return updateCreditCardService.updateCreditCardLimit(cardHolderId, id, limitUpdateRequest);
     }
 }
