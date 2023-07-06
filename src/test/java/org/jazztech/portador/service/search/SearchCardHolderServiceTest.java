@@ -78,7 +78,7 @@ class SearchCardHolderServiceTest {
         final UUID cardHolderId = UUID.randomUUID();
         when(creditCardRepository.findAllByCardHolderId(cardHolderId)).thenReturn(
                 List.of(cardEntityFactory(), cardEntityFactory(), cardEntityFactory(), cardEntityFactory()));
-        List<CreditCardModel> responses = service.getCreditCardsByCardHolderId(cardHolderId);
+        List<CreditCardEntity> responses = service.getCreditCardsByCardHolderId(cardHolderId);
         assertEquals(4, responses.size());
     }
 

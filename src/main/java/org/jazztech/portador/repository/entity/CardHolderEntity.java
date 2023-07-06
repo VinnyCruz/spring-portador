@@ -16,11 +16,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.Immutable;
 
 @Entity
 @Table(name = "CARDHOLDER")
-@Immutable
 public class CardHolderEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
@@ -48,7 +46,7 @@ public class CardHolderEntity {
     private CardHolderEntity() {
     }
 
-    @Builder
+    @Builder(toBuilder = true)
     public CardHolderEntity(UUID clientId, UUID creditAnalysisId, BankAccountEntity bankAccount, Status status, BigDecimal creditLimit) {
         this.id = UUID.randomUUID();
         this.clientId = clientId;

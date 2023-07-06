@@ -6,9 +6,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.jazztech.portador.apicredit.CreditApi;
 import org.jazztech.portador.controller.response.CardHolderResponse;
+import org.jazztech.portador.exception.IdsDoesntMatchException;
 import org.jazztech.portador.mapper.CardHolderResponseMapper;
-import org.jazztech.portador.mapper.CreditCardModelMapper;
-import org.jazztech.portador.model.CreditCardModel;
 import org.jazztech.portador.repository.CardHolderRepository;
 import org.jazztech.portador.repository.CreditCardRepository;
 import org.jazztech.portador.repository.entity.CardHolderEntity;
@@ -21,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class SearchCardHolderService {
     private final CardHolderResponseMapper cardHolderResponseMapper;
-    private final CreditCardModelMapper creditCardModelMapper;
     private final CardHolderRepository repository;
     private final CreditCardRepository creditCardRepository;
     private final CreditApi creditApi;
@@ -46,11 +44,29 @@ public class SearchCardHolderService {
         return cardHolderResponseMapper.from(cardHolderEntity);
     }
 
-    public List<CreditCardModel> getCreditCardsByCardHolderId(UUID cardHolderId) {
-        final List<CreditCardEntity> creditCards = creditCardRepository.findAllByCardHolderId(cardHolderId);
-        return creditCards
-                .stream()
-                .map(creditCardModelMapper::from)
-                .collect(Collectors.toList());
+    public List<CreditCardEntity> getCreditCardsByCardHolderId(UUID cardHolderId) {
+        return creditCardRepository.findAllByCardHolderId(cardHolderId);
+    }
+
+    public CreditCardEntity getCreditCardById(UUID cardHolderId, UUID id) {
+        getCardHolderById(cardHolderId);
+        final CreditCardEntity creditCard = creditCardRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Cartão de crédito não encontrado"));
+        if (!creditCard.getCardHolderId().equals(cardHolderId)) {
+            throw new IdsDoesntMatchException("O cartão de crédito não pertence ao portador informado");
+        }
+        return creditCard;
+    }
+
+    public CreditCardEntity getCreditCardEntityById(UUID cardHolderId, UUID id) {
+        getCardHolderById(cardHolderId);
+        final CreditCardEntity creditCard = creditCardRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Cartão de crédito não encontrado"));
+        if (!creditCard.getCardHolderId().equals(cardHolderId)) {
+            throw new IdsDoesntMatchException("O cartão de crédito não pertence ao portador informado");
+        }
+        return creditCard;
     }
 }

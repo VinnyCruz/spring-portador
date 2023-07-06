@@ -10,11 +10,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 import lombok.Builder;
-import org.springframework.data.annotation.Immutable;
 
 @Entity
 @Table(name = "CREDITCARD")
-@Immutable
 public class CreditCardEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
@@ -36,7 +34,6 @@ public class CreditCardEntity {
 
     @Builder(toBuilder = true)
     public CreditCardEntity(UUID cardHolderId, String cardNumber, Integer cvv, LocalDate dueDate, BigDecimal limit) {
-        this.id = UUID.randomUUID();
         this.cardHolderId = cardHolderId;
         this.cardNumber = cardNumber;
         this.cvv = cvv;
@@ -90,5 +87,17 @@ public class CreditCardEntity {
 
     public BigDecimal getLimit() {
         return limit;
+    }
+
+    @Override
+    public String toString() {
+        return "CreditCardEntity{"
+                + "id=" + id
+                + ", cardHolderId=" + cardHolderId
+                + ", cardNumber='" + cardNumber + '\''
+                + ", cvv=" + cvv
+                + ", dueDate=" + dueDate
+                + ", limit=" + limit
+                + '}';
     }
 }

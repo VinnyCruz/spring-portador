@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.jazztech.portador.exception.CardHolderAlreadyExistException;
 import org.jazztech.portador.exception.IdsDoesntMatchException;
 import org.jazztech.portador.exception.InactiveCardHolderException;
+import org.jazztech.portador.exception.InsufficientCreditLimitException;
 import org.jazztech.portador.exception.NonApprovedCreditAnalysisException;
 import org.jazztech.portador.exception.UnavailableCreditLimitException;
 import org.springframework.http.HttpStatus;
@@ -61,4 +62,12 @@ public class ControlExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(InsufficientCreditLimitException.class)
+    public ProblemDetail insufficientCreditLimitException(InsufficientCreditLimitException e) {
+        final ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+        problemDetail.setType(URI.create(""));
+        problemDetail.setProperty(TIMESTAMP, LocalDateTime.now());
+        problemDetail.setDetail(e.getMessage());
+        return problemDetail;
+    }
 }

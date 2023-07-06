@@ -87,8 +87,8 @@ public class CreateCardHolderService {
     private CreditCardModel validateNewCreditCard(UUID cardHolderId, CreditCardRequest creditCardRequest) {
         final CreditCardModel creditCard = creditCardModelMapper.from(creditCardRequest);
         final CardHolderResponse cardHolder = searchCardHolder.getCardHolderById(cardHolderId);
-        final List<CreditCardModel> cardHolderCreditCards = searchCardHolder.getCreditCardsByCardHolderId(cardHolderId);
-        final BigDecimal usedLimit = cardHolderCreditCards.stream().map(CreditCardModel::limit).reduce(BigDecimal.ZERO, BigDecimal::add);
+        final List<CreditCardEntity> cardHolderCreditCards = searchCardHolder.getCreditCardsByCardHolderId(cardHolderId);
+        final BigDecimal usedLimit = cardHolderCreditCards.stream().map(CreditCardEntity::getLimit).reduce(BigDecimal.ZERO, BigDecimal::add);
         final BigDecimal remainingLimit = cardHolder.creditLimit().subtract(usedLimit);
         if (!cardHolder.status().equals(CardHolderResponse.Status.ACTIVE)) {
             throw new InactiveCardHolderException("O portador não está ativo. Não é possível solicitar um novo cartão de crédito.");

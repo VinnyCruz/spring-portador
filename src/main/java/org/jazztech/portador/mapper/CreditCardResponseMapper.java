@@ -2,7 +2,6 @@ package org.jazztech.portador.mapper;
 
 import java.util.List;
 import org.jazztech.portador.controller.response.CreditCardResponse;
-import org.jazztech.portador.model.CreditCardModel;
 import org.jazztech.portador.repository.entity.CreditCardEntity;
 import org.mapstruct.Mapper;
 
@@ -10,6 +9,6 @@ import org.mapstruct.Mapper;
 public interface CreditCardResponseMapper {
     CreditCardResponse from(CreditCardEntity creditCardEntity);
 
-    List<CreditCardResponse> from(List<CreditCardModel> creditCardModel);
+    List<CreditCardResponse> listFrom(List<CreditCardEntity> creditCardEntities);
 
 }
