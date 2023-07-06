@@ -2,8 +2,6 @@ package org.jazztech.portador.repository.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -14,7 +12,7 @@ import lombok.Builder;
 @Entity
 @Table(name = "CREDITCARD")
 public class CreditCardEntity {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
     UUID id;
 
     UUID cardHolderId;
@@ -34,6 +32,7 @@ public class CreditCardEntity {
 
     @Builder(toBuilder = true)
     public CreditCardEntity(UUID cardHolderId, String cardNumber, Integer cvv, LocalDate dueDate, BigDecimal limit) {
+        this.id = UUID.randomUUID();
         this.cardHolderId = cardHolderId;
         this.cardNumber = cardNumber;
         this.cvv = cvv;

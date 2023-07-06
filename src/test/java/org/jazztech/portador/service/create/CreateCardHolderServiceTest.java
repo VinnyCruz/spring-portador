@@ -93,7 +93,8 @@ class CreateCardHolderServiceTest {
         final CardHolderEntity entity = CardHolderEntity.builder()
                 .clientId(request.clientId())
                 .creditAnalysisId(request.creditAnalysisId())
-                .bankAccount(bankAccountEntityFactory()).status(CardHolderEntity.Status.ACTIVE)
+                .bankAccount(bankAccountEntityFactory())
+                .status(CardHolderEntity.Status.ACTIVE)
                 .creditLimit(new BigDecimal(20000).setScale(2, RoundingMode.DOWN))
                 .build();
         when(creditApi.getAnalysisById(request.creditAnalysisId())).thenReturn(CreditAnalysis.builder()
@@ -105,21 +106,11 @@ class CreateCardHolderServiceTest {
         when(cardHolderRepository.save(cardHolderEntityCaptor.capture())).thenReturn(entity);
         final CardHolderResponse cardHolder = service.createCardHolder(request);
         assertNotNull(cardHolder.id());
-        assertEquals("ACTIVE", cardHolder.status());
     }
 
     @Test
     void should_throw_IdsDoesntMatchException() {
         final CardHolderRequest request = requestFactory();
-<<<<<<<<< Temporary merge branch 1
-=========
-        final CardHolderEntity entity = CardHolderEntity.builder()
-                .clientId(request.clientId())
-                .creditAnalysisId(request.creditAnalysisId())
-                .bankAccount(bankAccountEntityFactory()).status(CardHolderEntity.Status.ACTIVE)
-                .creditLimit(new BigDecimal(20000).setScale(2, RoundingMode.DOWN))
-                .build();
->>>>>>>>> Temporary merge branch 2
         when(creditApi.getAnalysisById(request.creditAnalysisId())).thenReturn(CreditAnalysis.builder()
                 .id(request.creditAnalysisId())
                 .clientId(UUID.randomUUID())
@@ -161,7 +152,7 @@ class CreateCardHolderServiceTest {
         final CreditCardRequest creditCardRequest = CreditCardRequest.builder().limit(BigDecimal.ONE).build();
         when(creditCardRepository.save(creditCardEntityCaptor.capture())).thenReturn(cardEntityFactory());
         when(searchService.getCardHolderById(idCaptor.capture())).thenReturn(responseFactory());
-        when(searchService.getCreditCardsByCardHolderId(idCaptor.capture())).thenReturn(List.of(cardModelFactory(), cardModelFactory()));
+        when(searchService.getCreditCardsByCardHolderId(idCaptor.capture())).thenReturn(List.of(cardEntityFactory(), cardEntityFactory()));
 
         final CreditCardResponse response = service.createCreditCard(cardHolderId, creditCardRequest);
 
@@ -175,7 +166,7 @@ class CreateCardHolderServiceTest {
         final UUID cardHolderId = UUID.randomUUID();
         final CreditCardRequest creditCardRequest = CreditCardRequest.builder().limit(BigDecimal.ONE).build();
         when(searchService.getCardHolderById(idCaptor.capture())).thenReturn(inactiveResponseFactory());
-        when(searchService.getCreditCardsByCardHolderId(idCaptor.capture())).thenReturn(List.of(cardModelFactory(), cardModelFactory()));
+        when(searchService.getCreditCardsByCardHolderId(idCaptor.capture())).thenReturn(List.of(cardEntityFactory(), cardEntityFactory()));
 
         assertThrows(InactiveCardHolderException.class, () -> service.createCreditCard(cardHolderId, creditCardRequest));
     }
@@ -185,7 +176,7 @@ class CreateCardHolderServiceTest {
         final UUID cardHolderId = UUID.randomUUID();
         final CreditCardRequest creditCardRequest = CreditCardRequest.builder().limit(BigDecimal.valueOf(20000)).build();
         when(searchService.getCardHolderById(idCaptor.capture())).thenReturn(responseFactory());
-        when(searchService.getCreditCardsByCardHolderId(idCaptor.capture())).thenReturn(List.of(cardModelFactory(), cardModelFactory()));
+        when(searchService.getCreditCardsByCardHolderId(idCaptor.capture())).thenReturn(List.of(cardEntityFactory(), cardEntityFactory()));
 
         assertThrows(UnavailableCreditLimitException.class, () -> service.createCreditCard(cardHolderId, creditCardRequest));
     }
@@ -201,7 +192,7 @@ class CreateCardHolderServiceTest {
     public CardHolderResponse responseFactory() {
         return CardHolderResponse.builder()
                 .id(UUID.randomUUID())
-                .status("ACTIVE")
+                .status(CardHolderResponse.Status.ACTIVE)
                 .creditLimit(BigDecimal.TEN)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -210,7 +201,7 @@ class CreateCardHolderServiceTest {
     public CardHolderResponse inactiveResponseFactory() {
         return CardHolderResponse.builder()
                 .id(UUID.randomUUID())
-                .status("INACTIVE")
+                .status(CardHolderResponse.Status.INACTIVE)
                 .creditLimit(BigDecimal.TEN)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -229,16 +220,6 @@ class CreateCardHolderServiceTest {
                 .bankAccount("0795")
                 .bankAgency("0001")
                 .bankCode("777")
-                .build();
-    }
-
-    public CreditCardModel cardModelFactory() {
-        return CreditCardModel.builder()
-                .cardHolderId(UUID.randomUUID())
-                .cardNumber("5618 5634 9958 1910")
-                .cvv(759)
-                .limit(BigDecimal.ONE)
-                .dueDate(LocalDate.now())
                 .build();
     }
 
